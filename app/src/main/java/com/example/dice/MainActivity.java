@@ -1,11 +1,17 @@
 package com.example.dice;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
+import android.widget.TableRow;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        show();
+        show();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -50,28 +56,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void show() {
-//        final AlertDialog.Builder d = new AlertDialog.Builder(MainActivity.this);
-//        LayoutInflater inflater = this.getLayoutInflater();
-//        View dialogView = inflater.inflate(R.layout.number_picker_dialog, null);
-//        d.setTitle("Dice game");
-//        d.setMessage("How many dice do you want?");
-//        d.setView(dialogView);
-//        final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.dialog_number_picker);
-//        numberPicker.setMaxValue(9);
-//        numberPicker.setMinValue(1);
-//        numberPicker.setWrapSelectorWheel(true);
-//
-//        d.setPositiveButton("Done", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                Log.d("TAG", "onClick: " + numberPicker.getValue());
-//            }
-//        });
-//
-//        AlertDialog alertDialog = d.create();
-//        alertDialog.show();
-//    }
+    public void show() {
+        final AlertDialog.Builder d = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.number_picker_dialog, null);
+        d.setTitle("Dice game");
+        d.setMessage("How many row of dice do you want?");
+        d.setView(dialogView);
+        final NumberPicker numberPicker = dialogView.findViewById(R.id.dialog_number_picker);
+        numberPicker.setMaxValue(4);
+        numberPicker.setMinValue(1);
+        numberPicker.setWrapSelectorWheel(true);
+
+        d.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                TableRow tableRow2 = findViewById(R.id.tableRow2);
+                TableRow tableRow3 = findViewById(R.id.tableRow3);
+                TableRow tableRow4 = findViewById(R.id.tableRow4);
+
+                if (numberPicker.getValue() == 1) {
+                    tableRow2.setVisibility(View.GONE);
+                    tableRow3.setVisibility(View.GONE);
+                    tableRow4.setVisibility(View.GONE);
+                } else if (numberPicker.getValue() == 2) {
+                    tableRow3.setVisibility(View.GONE);
+                    tableRow4.setVisibility(View.GONE);
+                } else if(numberPicker.getValue() == 3) {
+                    tableRow4.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        AlertDialog alertDialog = d.create();
+        alertDialog.show();
+    }
 
     public void rollDice(View view) {
         for (int i = 0; i < 11; i++) {
